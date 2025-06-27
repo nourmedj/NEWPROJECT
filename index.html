@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caesar Cipher ✨</title>
+  <style>
+    :root {
+      --primary: #a78bfa;
+      --bg: #1e1e2f;
+      --card: #2c2c3e;
+      --text: #f4f4f4;
+      --input-bg: #3a3a50;
+      --rounded: 1.25rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: var(--primary);
+      margin: 0;
+    }
+
+    .container {
+      background: var(--card);
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: var(--rounded);
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    textarea,
+    input[type="number"] {
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 1rem;
+      background: var(--input-bg);
+      border: none;
+      border-radius: var(--rounded);
+      color: var(--text);
+      font-size: 1rem;
+      resize: none;
+    }
+
+    .btn {
+      padding: 0.75rem 2rem;
+      margin: 0.5rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--rounded);
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #aaa;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔐 Caesar Cipher</h1>
+    <p>Encrypt and decrypt your messages easily!</p>
+  </header>
+
+  <section class="container">
+    <textarea id="inputText" rows="5" placeholder="Type your message here..."></textarea>
+    <input type="number" id="shift" placeholder="Enter shift (e.g., 3)" min="0" max="25">
+    <div>
+      <button class="btn" onclick="encrypt()">Encrypt 🔒</button>
+      <button class="btn" onclick="decrypt()">Decrypt 🔓</button>
+    </div>
+    <textarea id="result" rows="5" readonly placeholder="Your result will appear here..."></textarea>
+  </section>
+
+  <footer>
+    &copy; 2025 Caesar Cipher Tool by You ❤️
+  </footer>
+
+  <script>
+    function shiftChar(c, shift) {
+      const isUpper = c >= 'A' && c <= 'Z';
+      const isLower = c >= 'a' && c <= 'z';
+      if (isUpper) return String.fromCharCode((c.charCodeAt(0) - 65 + shift + 26) % 26 + 65);
+      if (isLower) return String.fromCharCode((c.charCodeAt(0) - 97 + shift + 26) % 26 + 97);
+      return c;
+    }
+
+    function processText(isEncrypting) {
+      const text = document.getElementById('inputText').value;
+      const shift = parseInt(document.getElementById('shift').value);
+     
+      
+      const result = text
+        .split('')
+        .map(c => shiftChar(c, isEncrypting ? shift : -shift))
+        .join('');
+      document.getElementById('result').value = result;
+    }
+
+    function encrypt() {
+      processText(true);
+    }
+
+    function decrypt() {
+      processText(false);
+    }
+  </script>
+</body>
+</html>
